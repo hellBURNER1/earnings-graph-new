@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hell Double Door Progress</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #00ff88;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        canvas {
+            max-width: 100%%;
+            height: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #00ff88;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hell Double Door Progress</h1>
+    <canvas id="earningsChart"></canvas>
+    <script>
+        async function fetchData() {
+            const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTbgPCxWF-xb9UBURhs4B4sEmSaMMGw10yUko78Cld3uL2ho-bzPXmJKXNDDTYXGLJvJQGLvHrywsT-/export?format=csv");
+            const data = await response.text();
+            const rows = data.split("\n").slice(1);
+            const labels = [];
+            const amounts = [];
+            const sources = [];
+
+            for (let row of rows) {
+                const cols = row.split(",");
+                if (cols.length >= 2) {
+                    labels.push(cols[0]);
+                    amounts.push(parseFloat(cols[1]));
+                    sources.push(cols[2] || "");
+                }
+            }
+
+            const ctx = document.getElementById('earningsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Earnings',
+                        data: amounts,
+                        borderColor: '#00ff88',
+                        backgroundColor: 'rgba(0, 255, 136, 0.2)',
+                        tension: 0.3,
+                        pointBackgroundColor: '#00ff88',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Amount: $${context.parsed.y} (${sources[context.dataIndex] || "No source"})`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: "#00ff88" },
+                            grid: { color: "#333" }
+                        },
+                        y: {
+                            ticks: { color: "#00ff88" },
+                            grid: { color: "#333" }
+                        }
+                    }
+                }
+            });
+        }
+
+        fetchData();
+    </script>
+</body>
+</html>
