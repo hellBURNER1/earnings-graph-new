@@ -50,7 +50,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const csvBaseUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTbgPCxWF-xb9UBURhs4B4sEmSaMMGw10yUko78Cld3uL2ho-bzPXmJKXNDDTYXGLJvJQGLvHrywsT-/export?format=csv';
+    const csvBaseUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSc9rb3w8xZTr6wuYNw-goeM5Ald2AZarqxrkgpGS9upoxnj88ZnZDIZaE4WXjSKGz4jAbrb9baOJ1E/export?format=csv';
 
     async function fetchData() {
       try {
@@ -113,14 +113,10 @@
           },
           scales: {
             x: {
-              min: 0,
-              max: 55,
               ticks: { color: 'var(--primary)' },
               grid: { color: '#2f3640' }
             },
             y: {
-              min: 0,
-              max: 55,
               ticks: { color: 'var(--primary)' },
               grid: { color: '#2f3640' }
             }
@@ -130,7 +126,7 @@
     }
 
     drawChart();
-    setInterval(drawChart, 300000); // Auto-refresh every 5 minutes
+    setInterval(drawChart, 300000); // Refresh every 5 minutes
   </script>
 </body>
 </html>
